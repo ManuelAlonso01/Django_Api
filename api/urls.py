@@ -12,5 +12,7 @@ urlpatterns = [
     path("series/update/<int:id>/", update_serie),
     path("movies/delete/<int:id>/", delete_movie),
     path("series/delete/<int:id>/", delete_serie),
+    path("movies/<str:genre>/", movies_genre),
+    path("series/<str:genre>/", series_genre),
     
 ]

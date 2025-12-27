@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404, get_list_or_404
 
 from .models import Movies, Series, Genre
-from .serializers import MovieSerializer, SeriesSerializer, MovieCreateSerializer, SerieCreateSerializer, MovieUpdateSerializer, SerieUpdateSerializer
+from .serializers import *
 
 # Create your views here.
 
@@ -31,6 +31,30 @@ def serie_detail(request, id):
     serie = get_object_or_404(Series, pk=id)
     serializer = SeriesSerializer(serie)
     return Response({"Serie": serializer.data}, 200)
+
+@api_view(['GET'])
+def movies_genre(request, genre):
+    movies = Movies.objects.filter(base__genres__name=genre)
+    if not movies.exists():
+        return Response(
+            {"error": f"No hay películas del género {genre}"},
+            status=404
+        )
+    serializer = MovieSerializer(movies, many=True)
+    return Response({"Peliculas": serializer.data}, status=200)
+
+
+@api_view(['GET'])
+def series_genre(request, genre):
+    series = Series.objects.filter(base__genres__name=genre)
+    if not series.exists():
+        return Response(
+            {"error": f"No hay series del género {genre}"},
+            status=404
+        )
+    serializer = SeriesSerializer(series, many=True)
+    return Response({"Series": serializer.data}, status=200)
+    
 
 
 @api_view(['POST'])
