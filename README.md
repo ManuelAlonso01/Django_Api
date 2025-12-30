@@ -97,17 +97,17 @@ API REST desarrollada con Django y Django Rest Framework para gestionar un catá
 
    - GET /series/ → Lista todas las series.
 
-   - GET /movies/id/<id>/ → Detalle de una película.
+   - GET /movies/id/<<int:id>>/ → Detalle de una película.
 
-   - GET /series/id/<id>/ → Detalle de una serie.
+   - GET /series/id/<<int:id>>/ → Detalle de una serie.
 
-   - GET /movies/genre/<genre>/ → Películas por género.
+   - GET /movies/genre/<<str:genre>>/ → Películas por género.
 
-   - GET /series/genre/<genre>/ → Series por género.
+   - GET /series/genre/<<str:genre>>/ → Series por género.
 
-   - GET /movies/title/<title>/ → Buscar película por título.
+   - GET /movies/title/<<str:title>>/ → Buscar película por título.
 
-   - GET /series/title/<title>/ → Buscar serie por título.
+   - GET /series/title/<<str:title>>/ → Buscar serie por título.
 
 - ✍️ POST (solo admin)
 
@@ -117,15 +117,15 @@ API REST desarrollada con Django y Django Rest Framework para gestionar un catá
 
 - ♻️ PATCH (solo admin)
 
-   - PATCH /movies/update/<id>/ → Actualizar película.
+   - PATCH /movies/update/<<int:id>>/ → Actualizar película.
 
-   - PATCH /series/update/<id>/ → Actualizar serie.
+   - PATCH /series/update/<<int:id>>/ → Actualizar serie.
 
 - 🗑️ DELETE (solo admin)
 
-   - DELETE /movies/delete/<int:id>/ → Eliminar película.
+   - DELETE /movies/delete/<<int:id>>/ → Eliminar película.
 
-   - DELETE /series/delete/<int:id>/ → Eliminar serie.
+   - DELETE /series/delete/<<int:id>>/ → Eliminar serie.
 
 ## ✒️ Autor
 
