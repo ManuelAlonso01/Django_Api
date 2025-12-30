@@ -1,37 +1,133 @@
-# 🎬 Movie & Series API (Django)
+# 🎬 Movie & Series API (Django REST)
 
-Este es un proyecto de backend para gestionar un catálogo de películas y series, desarrollado con **Django Rest Framework**.
+API REST desarrollada con Django y Django Rest Framework para gestionar un catálogo de películas y series, con soporte de autenticación y control de permisos para operaciones sensibles.
 
 ## 🚀 Funcionalidades
-- **CRUD Completo:** Listar, crear, actualizar y eliminar películas/series.
-- **Filtros:** Búsqueda por ID.
-- **Seguridad:** Implementación de `permission_classes` para proteger los endpoints.
+
+- CRUD completo de películas y series.
+
+- Listado y detalle por ID.
+- Búsqueda por título.
+
+- Filtrado por género.
+- Autenticación por token.
+
+- Permisos: solo usuarios  administradores pueden crear, editar o eliminar contenido.
+
+## 🧱 Stack tecnológico
+
+- Python
+
+- Django
+
+- Django REST Framework
+
+- PostgreSQL
 
 ## 🛠️ Instalación
-1. Clona el repositorio.
-2. Crea un entorno virtual: `python -m venv venv`.
-3. Activa el entorno:
-```bash
-   - Windows: `.\venv\Scripts\activate`
-   - Linux/Mac: `source venv/bin/activate`
-```
-4. Instala las dependencias: `pip install django djangorestframework`.
-5. Ejecuta las migraciones: `python manage.py migrate`.
-6. Crea un usuario administrador: `python manage.py createsuperuser`.
-7. Ejecuta el servidor: `python manage.py runserver`.
 
-## 📌 Endpoints Principales
-- ```GET /movies/```: Lista todas las películas.
-- ```GET /series/```: Lista todas las series.
-- ```GET /movies/<id>/```: Muestra la película con ese id.
-- ```GET /series/<id>/```: Muestra la serie con ese id.
-- **SOLO ADMIN**
-- ```POST /movies/create/```: Crea una pelicula con los datos enviados en el JSON.
-- ```POST /series/create/```: Crea una serie con los datos enviados en el JSON.
-- ```PATCH /movies/update/<id>/```: Actualiza una película.
-- ```PATCH /series/update/<id>/```: Actualiza una serie.
-- ```DELETE /movies/delete/<id>/```: Elimina la película con ese id.
-- ```DELETE /series/delete/<id>/```: Elimina la serie con ese id.
+- Clonar el repositorio.
+
+- Crear un entorno virtual:
+   ```bash
+   python -m venv venv
+   ```
+
+
+- Activar el entorno:
+   ```bash
+   # Windows
+   .\venv\Scripts\activate
+
+   # Linux / Mac
+   source venv/bin/activate
+   ```
+
+
+- Instalar dependencias:
+
+   ```bash
+   pip install django djangorestframework    psycopg2-binary
+   ```
+
+
+- Ejecutar migraciones:
+
+   ```bash
+   python manage.py migrate
+   ```
+
+
+- Crear un superusuario:
+   ```bash
+   python manage.py createsuperuser
+   ```
+
+
+- Crear un token de autenticación:
+
+   ```bash 
+   python manage.py shell
+   ```
+   ```python
+   from django.contrib.auth.models import User
+   from rest_framework.authtoken.models import Token
+
+   user = User.objects.get(username="admin")
+   token, created = Token.objects.get_or_create(user=user)
+   print(token.key)
+   ```
+
+
+
+- Ejecutar el servidor:
+   ```bash
+   python manage.py runserver
+   ```
+
+## 🔐 Autenticación
+
+- Los endpoints protegidos requieren enviar el token en el header HTTP:
+- Authorization: Token <tu_token>
+
+## 📌 Endpoints
+- 🔍 GET
+
+   - GET /movies/ → Lista todas las películas.
+
+   - GET /series/ → Lista todas las series.
+
+   - GET /movies/id/<id>/ → Detalle de una película.
+
+   - GET /series/id/<id>/ → Detalle de una serie.
+
+   - GET /movies/genre/<genre>/ → Películas por género.
+
+   - GET /series/genre/<genre>/ → Series por género.
+
+   - GET /movies/title/<title>/ → Buscar película por título.
+
+   - GET /series/title/<title>/ → Buscar serie por título.
+
+- ✍️ POST (solo admin)
+
+   - POST /movies/create/ → Crear una película.
+
+   - POST /series/create/ → Crear una serie.
+
+- ♻️ PATCH (solo admin)
+
+   - PATCH /movies/update/<id>/ → Actualizar película.
+
+   - PATCH /series/update/<id>/ → Actualizar serie.
+
+- 🗑️ DELETE (solo admin)
+
+   - DELETE /movies/delete/<id>/ → Eliminar película.
+
+   - DELETE /series/delete/<id>/ → Eliminar serie.
 
 ## ✒️ Autor
-- Manuel - (https://github.com/ManuelAlonso01)
+
+- Manuel Alonso
+- 👉 https://github.com/ManuelAlonso01

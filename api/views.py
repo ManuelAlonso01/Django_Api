@@ -6,13 +6,16 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 from .models import Movies, Series, Genre
 from .serializers import *
 
-# Create your views here.
+
+
+#<-----------------GET VIEWS------------------->
 
 @api_view(['GET'])
 def movies_list(request):
     movies = get_list_or_404(Movies)
     serializer = MovieSerializer(movies, many=True)
     return Response({"Peliculas": serializer.data}, status=200)
+
 
 @api_view(['GET'])    
 def series_list(request):
@@ -34,28 +37,32 @@ def serie_detail(request, id):
 
 @api_view(['GET'])
 def movies_genre(request, genre):
-    movies = Movies.objects.filter(base__genres__name=genre)
-    if not movies.exists():
-        return Response(
-            {"error": f"No hay películas del género {genre}"},
-            status=404
-        )
+    movies = get_list_or_404(Movies, base__genres__name__iexact=genre)
     serializer = MovieSerializer(movies, many=True)
     return Response({"Peliculas": serializer.data}, status=200)
 
-
 @api_view(['GET'])
 def series_genre(request, genre):
-    series = Series.objects.filter(base__genres__name=genre)
-    if not series.exists():
-        return Response(
-            {"error": f"No hay series del género {genre}"},
-            status=404
-        )
+    series = get_list_or_404(Series, base__genres__name__iexact=genre)
     serializer = SeriesSerializer(series, many=True)
     return Response({"Series": serializer.data}, status=200)
     
+@api_view(['GET'])
+def find_movie_title(request, movie_title):
+    movie = get_object_or_404(Movies, base__title__iexact=movie_title)
+    serializer = MovieSerializer(movie)
+    return Response({"Pelicula": serializer.data}, status=200)
 
+@api_view(['GET'])
+def find_serie_title(request, serie_title):
+    serie = get_object_or_404(Series, base__title__iexact=serie_title)
+    serializer = SeriesSerializer(serie)
+    return Response({"Serie": serializer.data}, status=200)
+
+
+
+
+#<-----------------POST VIEWS------------------>
 
 @api_view(['POST'])
 @permission_classes([IsAdminUser])
@@ -72,6 +79,10 @@ def create_serie(request):
     serializer.is_valid(raise_exception=True)
     serie = serializer.save()
     return Response(SeriesSerializer(serie).data, status=201)
+
+
+
+#<-----------------PATCH VIEWS----------------->
 
 @api_view(['PATCH'])
 @permission_classes([IsAdminUser])
@@ -101,7 +112,6 @@ def update_movie(request, id):
     movie.save()
     
     return Response(MovieSerializer(movie).data)
-
 
 @api_view(['PATCH'])
 @permission_classes([IsAdminUser])
@@ -134,14 +144,16 @@ def update_serie(request, id):
     return Response(SeriesSerializer(serie).data)
 
 
+
+
+#<-----------------DELETE VIEWS---------------->
+
 @api_view(["DELETE"])
 @permission_classes([IsAdminUser])
 def delete_movie(request, id):
     movie = get_object_or_404(Movies, pk=id)
     movie.delete()
     return Response(status=204)
-
-
 
 @api_view(['DELETE'])
 @permission_classes([IsAdminUser])

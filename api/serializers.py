@@ -50,6 +50,15 @@ class MovieCreateSerializer(serializers.Serializer):
     director = serializers.CharField()
     duration_minutes = serializers.IntegerField()
     
+    def validate_title(self, value):
+        return value.strip().title()
+    
+    def validate_director(self, value):
+        return value.strip().title()
+    
+    def validate_genres(self, value):
+        return [g.strip().lower() for g in value]
+    
     def create(self, valited_data):
         genres_names = valited_data.pop("genres")
         base = Base.objects.create(
@@ -77,6 +86,12 @@ class SerieCreateSerializer(serializers.Serializer):
     end_year = serializers.IntegerField()
     season_count = serializers.IntegerField()
     episodes_count = serializers.IntegerField()
+    
+    def validate_title(self, value):
+        return value.strip().title()
+    
+    def validate_genres(self, value):
+        return [g.strip().lower() for g in value]
     
     def create(self, valited_data):
         genres_names = valited_data.pop("genres")
