@@ -123,9 +123,9 @@ API REST desarrollada con Django y Django Rest Framework para gestionar un catá
 
 - 🗑️ DELETE (solo admin)
 
-   - DELETE /movies/delete/<id>/ → Eliminar película.
+   - DELETE /movies/delete/<int:id>/ → Eliminar película.
 
-   - DELETE /series/delete/<id>/ → Eliminar serie.
+   - DELETE /series/delete/<int:id>/ → Eliminar serie.
 
 ## ✒️ Autor
 
