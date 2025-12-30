@@ -47,7 +47,7 @@ API REST desarrollada con Django y Django Rest Framework para gestionar un catá
 - Instalar dependencias:
 
    ```bash
-   pip install django djangorestframework    psycopg2-binary
+   pip install django djangorestframework psycopg2-binary
    ```
 
 
