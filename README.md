@@ -127,6 +127,72 @@ API REST desarrollada con Django y Django Rest Framework para gestionar un catá
 
    - DELETE /series/delete/<<int:id>>/ → Eliminar serie.
 
+## 🧠 Ejemplo de uso
+   - Obtener Peliculas
+     ```python
+     import requests
+
+      url = "http://127.0.0.1:8000/movies/"
+      response = requests.get(url)
+
+      if response.status_code != 200:
+          print("Error al conectar con la API")
+          exit()
+
+      data = response.json()
+
+      if 'detail' in data:
+          print(data['detail'])
+      else:
+          for pelicula in data.get('Peliculas', []):
+              print({
+                  'titulo': pelicula['title'],
+                  'genero': pelicula['genres'],
+                  'año': pelicula['year'],
+                  'duracion en minutos': pelicula['duration_minutes']
+                 })
+     ```
+   - Salida
+     ```bash
+     {'titulo': 'Parasite', 'genero': ['thriller'], 'año': 2019, 'duracion en minutos': 132}
+     {'titulo': 'Mad Max: Fury Road', 'genero': ['accion'], 'año': 2015, 'duracion en minutos': 120}
+     {'titulo': 'Spirited Away', 'genero': ['animacion'], 'año': 2001, 'duracion en minutos': 125}
+     {'titulo': 'La leyenda del jinete sin cabeza', 'genero': ['terror', 'fantasia'], 'año': 1999, 'duracion en minutos': 105}
+     {'titulo': 'Inception', 'genero': ['ciencia ficcion'], 'año': 2010, 'duracion en minutos': 148}
+     {'titulo': 'Hereditary', 'genero': ['terror'], 'año': 2018, 'duracion en minutos': 127}
+     {'titulo': 'Pearl', 'genero': ['terror', 'drama'], 'año': 2022, 'duracion en minutos': 102}
+     ```
+   - Agregar una Pelicula
+     ```python
+     import requests
+
+      url = "http://127.0.0.1:8000/movies/create/"
+
+      headers = {
+          'Authorization': 'Token <TU TOKEN>'
+      }
+
+      payload = {
+          'title': 'It',
+          'genres': ['terror', 'misterio'],
+          'year': 2017,
+          'director': 'Andy Muschietti',
+          'duration_minutes': 135,
+      }
+
+      response = requests.post(url,
+       headers=headers,
+       json=payload                    
+       )
+
+      print(response.status_code)
+      print(response.json())
+     ```
+- Salida
+     ```bash
+     201
+     {'id': 8, 'title': 'It', 'genres': ['terror', 'misterio'], 'year': 2017, 'director': 'Andy Muschietti', 'duration_minutes': 135}
+     ```
 ## ✒️ Autor
 
 - Manuel Alonso
